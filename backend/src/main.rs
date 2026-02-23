@@ -43,7 +43,11 @@ async fn main() {
         .layer(cors)
         .layer(TraceLayer::new_for_http());
 
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3001));
+    let port: u16 = std::env::var("BACKEND_PORT")
+        .ok()
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(3001);
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     tracing::info!("GSAD backend listening on {addr}");
     tracing::info!("Serving frontend from {frontend_dir}");
 

@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# GSAD Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + TypeScript + Vite frontend for the Global Situation Awareness Dashboard.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The dev server starts on `http://localhost:5173` and proxies `/api` requests to the backend at `http://localhost:3001`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command | Description |
+|---|---|
+| `npm run dev` | Start dev server with HMR |
+| `npm run build` | Type-check and production build |
+| `npm run test` | Run Vitest test suite |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | ESLint check |
+| `npm run preview` | Preview production build |
+
+## Stack
+
+- **React 19** — UI framework
+- **TypeScript 5.9** — type safety
+- **Vite 7** — build tool and dev server
+- **Zustand** — lightweight state management
+- **react-grid-layout** — draggable/resizable widget grid
+- **Vitest** — test runner
+- **ESLint** — linting
+
+## Structure
+
+```
+src/
+├── components/
+│   ├── layout/         # DashboardHeader, GridDashboard, WidgetFrame, ErrorBoundary
+│   └── widgets/        # 25 widget components (index.ts maps IDs to components)
+├── config/
+│   ├── gridSpec.ts     # Widget definitions and default grid positions
+│   └── dataSources.ts  # API endpoint mappings
+├── stores/
+│   └── dashboardStore.ts  # Zustand store (layout, presets, widget state)
+├── styles/
+│   └── global.css      # Dark theme CSS variables and global styles
+├── types/
+│   └── widget.ts       # TypeScript interfaces
+├── __tests__/          # Test files
+├── App.tsx             # Root component
+└── main.tsx            # Entry point
 ```

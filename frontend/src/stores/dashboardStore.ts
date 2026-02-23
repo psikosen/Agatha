@@ -10,7 +10,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Layout } from 'react-grid-layout';
+import type { LayoutItem } from 'react-grid-layout/legacy';
 import type {
   CrossLinkPayload,
   LayoutPreset,
@@ -20,8 +20,8 @@ import { ALL_WIDGETS, GRID_COLS } from '../config/gridSpec';
 
 // ─── Helpers ─────────────────────────────────────────────────────
 
-/** Convert our spec positions → react-grid-layout Layout[] */
-function defaultRGLLayout(): Layout[] {
+/** Convert our spec positions → react-grid-layout LayoutItem[] */
+function defaultRGLLayout(): LayoutItem[] {
   return ALL_WIDGETS.map((w) => ({
     i: w.id,
     x: w.defaultPosition.colStart - 1, // RGL is 0-based
@@ -51,7 +51,7 @@ function defaultWidgetStates(): Record<string, WidgetState> {
 
 interface DashboardState {
   // Layout
-  layout: Layout[];
+  layout: LayoutItem[];
   cols: number;
   presets: LayoutPreset[];
   activePresetId: string | null;
@@ -67,7 +67,7 @@ interface DashboardState {
   ollamaModel: string | null;
 
   // Actions
-  setLayout: (layout: Layout[]) => void;
+  setLayout: (layout: LayoutItem[]) => void;
   resetLayout: () => void;
   savePreset: (name: string, description: string) => void;
   loadPreset: (presetId: string) => void;
@@ -131,7 +131,7 @@ export const useDashboardStore = create<DashboardState>()(
       loadPreset: (presetId) => {
         const preset = get().presets.find((p) => p.id === presetId);
         if (!preset) return;
-        const layout: Layout[] = preset.widgets.map((pw) => ({
+        const layout: LayoutItem[] = preset.widgets.map((pw) => ({
           i: pw.widget_id,
           x: pw.col_start - 1,
           y: pw.row_start - 1,
