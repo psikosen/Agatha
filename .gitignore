@@ -1,0 +1,21 @@
+# Dependencies
+frontend/node_modules/
+frontend/dist/
+
+# Rust
+backend/target/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
