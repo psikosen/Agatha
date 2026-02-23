@@ -1,0 +1,31 @@
+# Dependencies & build artifacts
+frontend/node_modules
+frontend/dist
+backend/target
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose*.yml
+Dockerfile*
+
+# Docs
+*.md
+LICENSE

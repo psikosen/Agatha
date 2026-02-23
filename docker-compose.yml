@@ -1,0 +1,25 @@
+services:
+  frontend-build:
+    build:
+      context: ./frontend
+      target: dist
+    volumes:
+      - frontend-dist:/dist
+
+  backend:
+    build: ./backend
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    env_file:
+      - .env
+    environment:
+      - FRONTEND_DIST=/app/frontend/dist
+      - RUST_LOG=info
+    volumes:
+      - frontend-dist:/app/frontend/dist:ro
+    depends_on:
+      frontend-build:
+        condition: service_completed_successfully
+
+volumes:
+  frontend-dist:

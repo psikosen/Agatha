@@ -226,3 +226,54 @@ pub fn all_widgets() -> Vec<WidgetDefinition> {
         ),
     ]
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn all_widgets_returns_25() {
+        let widgets = all_widgets();
+        assert_eq!(widgets.len(), 25);
+    }
+
+    #[test]
+    fn widget_ids_are_unique() {
+        let widgets = all_widgets();
+        let mut ids: Vec<&str> = widgets.iter().map(|w| w.id.as_str()).collect();
+        ids.sort();
+        ids.dedup();
+        assert_eq!(ids.len(), 25);
+    }
+
+    #[test]
+    fn widget_ids_follow_gsad_format() {
+        let widgets = all_widgets();
+        for w in &widgets {
+            assert!(
+                w.id.starts_with("GSAD-"),
+                "Widget id '{}' does not follow GSAD-XX format",
+                w.id
+            );
+        }
+    }
+
+    #[test]
+    fn all_widgets_have_data_sources() {
+        let widgets = all_widgets();
+        for w in &widgets {
+            assert!(
+                !w.data_sources.is_empty(),
+                "Widget '{}' has no data sources",
+                w.id
+            );
+        }
+    }
+
+    #[test]
+    fn all_widgets_serializable() {
+        let widgets = all_widgets();
+        let json = serde_json::to_value(&widgets);
+        assert!(json.is_ok(), "Widgets should serialize to JSON");
+    }
+}

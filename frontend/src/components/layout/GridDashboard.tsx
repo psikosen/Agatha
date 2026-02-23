@@ -9,8 +9,8 @@
  */
 
 import { useMemo, useCallback } from 'react';
-import { Responsive, WidthProvider } from 'react-grid-layout';
-import type { Layout, Layouts } from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout/legacy';
+import type { Layout, LayoutItem } from 'react-grid-layout/legacy';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
@@ -35,20 +35,20 @@ export const GridDashboard = () => {
   const layout = useDashboardStore((s) => s.layout);
   const setLayout = useDashboardStore((s) => s.setLayout);
 
-  const layouts: Layouts = useMemo(
+  const layouts = useMemo(
     () => ({
       lg: layout,
-      md: layout.map((l) => ({ ...l, w: Math.min(l.w, 8) })),
-      sm: layout.map((l) => ({ ...l, x: 0, w: 4 })),
-      xs: layout.map((l) => ({ ...l, x: 0, w: 2 })),
+      md: layout.map((l: LayoutItem) => ({ ...l, w: Math.min(l.w, 8) })),
+      sm: layout.map((l: LayoutItem) => ({ ...l, x: 0, w: 4 })),
+      xs: layout.map((l: LayoutItem) => ({ ...l, x: 0, w: 2 })),
     }),
     [layout],
   );
 
   const handleLayoutChange = useCallback(
-    (current: Layout[], _all: Layouts) => {
+    (current: Layout) => {
       if (current.length === ALL_WIDGETS.length) {
-        setLayout(current);
+        setLayout([...current]);
       }
     },
     [setLayout],
