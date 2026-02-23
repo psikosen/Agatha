@@ -5,6 +5,7 @@
  * Renders a placeholder skeleton with the widget's features listed.
  */
 
+import React from 'react';
 import { WidgetFrame } from '../layout/WidgetFrame';
 import type { WidgetDefinition } from '../../types/widget';
 

@@ -61,6 +61,14 @@ html, body, #root {
   background: #555;
 }
 
+/* ─── App shell ───────────────────────────────────────────────── */
+
+.gsad-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* ─── Widget placeholder styles ───────────────────────────────── */
 
 .widget-placeholder {
