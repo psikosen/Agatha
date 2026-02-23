@@ -8,8 +8,8 @@
  * localStorage (Zustand persist middleware).
  */
 
-import { useRef, useMemo, useCallback } from 'react';
-import { ResponsiveGridLayout, useContainerWidth } from 'react-grid-layout';
+import { useMemo, useCallback } from 'react';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import type { Layout, Layouts } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -23,15 +23,15 @@ import {
   ALL_WIDGETS,
 } from '../../config/gridSpec';
 import { renderWidget } from '../widgets';
+import { ErrorBoundary } from './ErrorBoundary';
 import './GridDashboard.css';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const BREAKPOINTS = { lg: 1600, md: 1200, sm: 900, xs: 600 };
 const COLS = { lg: GRID_COLS, md: 8, sm: 4, xs: 2 };
 
 export const GridDashboard = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const width = useContainerWidth(containerRef);
-
   const layout = useDashboardStore((s) => s.layout);
   const setLayout = useDashboardStore((s) => s.setLayout);
 
@@ -55,30 +55,29 @@ export const GridDashboard = () => {
   );
 
   return (
-    <div className="grid-dashboard" ref={containerRef}>
-      {width > 0 && (
-        <ResponsiveGridLayout
-          className="gsad-grid"
-          width={width}
-          layouts={layouts}
-          breakpoints={BREAKPOINTS}
-          cols={COLS}
-          rowHeight={ROW_HEIGHT}
-          margin={GRID_MARGIN}
-          containerPadding={GRID_CONTAINER_PADDING}
-          isDraggable
-          isResizable
-          compactType="vertical"
-          onLayoutChange={handleLayoutChange}
-          draggableHandle=".widget-header"
-        >
-          {ALL_WIDGETS.map((w) => (
-            <div key={w.id} data-grid-id={w.id}>
+    <div className="grid-dashboard">
+      <ResponsiveGridLayout
+        className="gsad-grid"
+        layouts={layouts}
+        breakpoints={BREAKPOINTS}
+        cols={COLS}
+        rowHeight={ROW_HEIGHT}
+        margin={GRID_MARGIN}
+        containerPadding={GRID_CONTAINER_PADDING}
+        isDraggable
+        isResizable
+        compactType="vertical"
+        onLayoutChange={handleLayoutChange}
+        draggableHandle=".widget-header"
+      >
+        {ALL_WIDGETS.map((w) => (
+          <div key={w.id} data-grid-id={w.id}>
+            <ErrorBoundary>
               {renderWidget(w.id)}
-            </div>
-          ))}
-        </ResponsiveGridLayout>
-      )}
+            </ErrorBoundary>
+          </div>
+        ))}
+      </ResponsiveGridLayout>
     </div>
   );
 };
