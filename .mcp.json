@@ -5,6 +5,8 @@
       "args": [
         "--python",
         "3.13",
+        "--with",
+        "mcp[cli]<2",
         "--from",
         "git+https://github.com/diivi/aseprite-mcp@90d1696a7e41edff89bbd0823ae6a5f86c114bcc",
         "python",
